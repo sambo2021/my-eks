@@ -1,0 +1,12 @@
+terraform.tfstate
+terraform.tfstate.backup
+README.md
+private-key
+private-key/*
+project
+project/*
+.terraform*
+.terraform/*
+local-exec-output-files
+local-exec-output-files/*
+.terraform.local.hcl
