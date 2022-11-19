@@ -92,7 +92,7 @@ variable "vpc_single_nat_gateway" {
 variable "instance_type" {
   description = "EC2 Instance Type"
   type = string
-  default = "t3.micro"  
+  default = "t2.micro"  
 }
 # AWS EC2 Instance Key Pair
 variable "instance_keypair" {

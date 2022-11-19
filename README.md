@@ -12,11 +12,19 @@ Host ${public-instance}
   HostName ${bastionhost-public-ip}
   User ec2-user
   IdentityFile ${path.cwd}/private-key/eks-terraform-key.pem
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ServerAliveInterval 60
+  ServerAliveCountMax 30
   ProxyCommand none
 Host ${private-instance} 
   HostName ${privatehost-private-ip}
   User ec2-user
   IdentityFile ${path.cwd}/private-key/eks-terraform-key.pem
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ServerAliveInterval 60
+  ServerAliveCountMax 30
   ProxyCommand ssh publichost -W %h:%p
 ```
 ## Step-03: from local machine you can ssh to public or private instances as well 
