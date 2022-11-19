@@ -1,6 +1,5 @@
 terraform.tfstate
 terraform.tfstate.backup
-README.md
 private-key
 private-key/*
 project
