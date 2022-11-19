@@ -31,5 +31,34 @@ Host ${private-instance}
 ```sh
   ssh privatehost
 ```
+# OR you can use this script directly to connect to one of your instances, this script are using aws, fzf, jq, ssh proxy commands to make it like dropdown list  
 
-## Step
+```sh
+  ./start_session.sh
+```
+
+
+## Step-05: if you want to list all running machins in specefic region using jq tool and make it in dropdownlist view using fzf tool 
+```sh
+aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf 
+```
+
+query to get private ip of selected instance 
+
+```sh
+
+aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{PrivateIP:NetworkInterfaces[*].PrivateIpAddress}" --filter "Name=tag:Name,Values=`aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq .[0][0]."Name"`" | jq -r .[0][0]."PrivateIP"[0]
+
+```
+
+this query echo what you have selected 
+
+```sh
+aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf | xargs -I '{}' echo {}
+
+```
+
+this query gives you private ip of selected instance 
+```sh
+aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf | xargs -I '{}' aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{PrivateIP:NetworkInterfaces[*].PrivateIpAddress}" --filter "Name=tag:Name,Values={}" | jq -r .[0][0]."PrivateIP"[0]
+```
