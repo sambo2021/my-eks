@@ -115,9 +115,9 @@ variable "cluster_service_ipv4_cidr" {
   default     = "172.20.0.0/16"
 }
 variable "cluster_version" {
-  description = "Kubernetes minor version to use for the EKS cluster (for example 1.21)"
+  description = "Kubernetes minor version to use for the EKS cluster (for example 1.24)"
   type = string
-  default     = "1.22"
+  default     = "1.24"
 }
 variable "cluster_endpoint_private_access" {
   description = "Indicates whether or not the Amazon EKS private API server endpoint is enabled."

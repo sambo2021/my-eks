@@ -43,7 +43,7 @@ Host ${private-instance}
 aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf 
 ```
 
-query to get private ip of selected instance 
+### query to get private ip of selected instance 
 
 ```sh
 
@@ -51,14 +51,23 @@ aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instanc
 
 ```
 
-this query echo what you have selected 
+### this query echo what you have selected 
 
 ```sh
 aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf | xargs -I '{}' echo {}
 
 ```
 
-this query gives you private ip of selected instance 
+### this query gives you private ip of selected instance 
 ```sh
 aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{Name:Tags[?Key=='Name']|[0].Value}" --filter "Name=instance-state-name,Values=running" | jq -r .[][0]."Name" | fzf | xargs -I '{}' aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instances[*].{PrivateIP:NetworkInterfaces[*].PrivateIpAddress}" --filter "Name=tag:Name,Values={}" | jq -r .[0][0]."PrivateIP"[0]
+```
+
+## update your kubeconfig after eks cluster creation completed 
+```sh
+aws eks update-kubeconfig --region "cluster-region" --name "cluster-name"
+```
+## add ebs csi driver to your cluster to use dynamic provisioning 
+```sh
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
 ```

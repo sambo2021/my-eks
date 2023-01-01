@@ -4,7 +4,7 @@ resource "aws_eks_node_group" "eks_ng_public" {
 
   node_group_name = "${local.name}-eks-ng-public"
   node_role_arn   = aws_iam_role.eks_nodegroup_role.arn
-  subnet_ids      = module.vpc.public_subnets
+  subnet_ids      = module.vpc.private_subnets
   #version = var.cluster_version #(Optional: Defaults to EKS Cluster Kubernetes version)    
   
   ami_type = "AL2_x86_64"  
@@ -15,13 +15,13 @@ resource "aws_eks_node_group" "eks_ng_public" {
   
   remote_access {
     ec2_ssh_key = var.instance_keypair
-    # source_security_group_ids = ["${module.public_bastion_sg.security_group_id}"]
+    source_security_group_ids = ["${module.public_bastion_sg.security_group_id}"]
   }
 
   scaling_config {
-    desired_size = 1
+    desired_size = 2
     min_size     = 1    
-    max_size     = 2
+    max_size     = 3
   }
 
   # Desired max percentage of unavailable worker nodes during node group update.
@@ -41,4 +41,17 @@ resource "aws_eks_node_group" "eks_ng_public" {
   tags = {
     Name = "Public-Node-Group"
   }
+}
+
+
+resource "aws_autoscaling_group_tag" "us_east_2_eks_instances" {
+  autoscaling_group_name = aws_eks_node_group.eks_ng_public.resources[0].autoscaling_groups[0].name
+  tag{
+    key="Name"
+    value = "my-eks-instance"
+    propagate_at_launch = true
+  }
+  depends_on = [
+    aws_eks_node_group.eks_ng_public
+  ]
 }
