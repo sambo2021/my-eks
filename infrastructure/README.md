@@ -67,7 +67,12 @@ aws ec2 describe-instances --region "us-east-2" --query "Reservations[*].Instanc
 ```sh
 aws eks update-kubeconfig --region "cluster-region" --name "cluster-name"
 ```
-## add ebs csi driver to your cluster to use dynamic provisioning 
+## add ebs csi driver to your cluster to use dynamic provisioning, but not needed since iam using csi driver addon
 ```sh
 kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+```
+
+## to find available versions of addons on EKS 
+```sh
+aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
 ```

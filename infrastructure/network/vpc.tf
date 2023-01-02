@@ -3,10 +3,9 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   # version = "3.11.0"
   version = "~> 3.11.0"
-
   # VPC Basic Details
-  name            = local.eks_cluster_name
-  # name            = var.vpc_name
+  # name            = local.eks_cluster_name
+  name            = var.vpc_name
   cidr            = var.vpc_cidr_block
   azs             = var.vpc_availability_zones
   public_subnets  = var.vpc_public_subnets
@@ -36,12 +35,12 @@ module "vpc" {
   public_subnet_tags = {
     Type = "Public Subnets"
     "kubernetes.io/role/elb" = 1    
-    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"        
+    # "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"        
   }
   private_subnet_tags = {
     Type = "private-subnets"
     "kubernetes.io/role/internal-elb" = 1    
-    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"    
+    # "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"    
   }
 
   # database_subnet_tags = {
