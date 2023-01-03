@@ -9,3 +9,6 @@ project/*
 local-exec-output-files
 local-exec-output-files/*
 .terraform.local.hcl
+csi-driver-addon-repo
+ec2-repo
+network-repo
