@@ -8,13 +8,13 @@ resource "aws_ssm_parameter" "vpc_cidr_block" {
   type        = "String"
   value       =  module.vpc.vpc_cidr_block
 }
-resource "aws_ssm_parameter" "private_subnets" {
-  name        = "/${var.business_divsion}-${var.environment}/network/private_subnets"
+resource "aws_ssm_parameter" "private_subnets_cidr" {
+  name        = "/${var.business_divsion}-${var.environment}/network/private_subnets_cidr"
   type        = "StringList"
   value       = join(",",var.vpc_private_subnets)
 }
-resource "aws_ssm_parameter" "public_subnets" {
-  name        = "/${var.business_divsion}-${var.environment}/network/public_subnets"
+resource "aws_ssm_parameter" "public_subnets_cidr" {
+  name        = "/${var.business_divsion}-${var.environment}/network/public_subnets_cidr"
   type        = "StringList"
   value       = join(",", var.vpc_public_subnets)
 }
@@ -28,4 +28,16 @@ resource "aws_ssm_parameter" "azs" {
   name        = "/${var.business_divsion}-${var.environment}/network/azs"
   type        = "StringList"
   value       = join(",", module.vpc.azs) 
+}
+
+resource "aws_ssm_parameter" "private_subnets_id" {
+  name        = "/${var.business_divsion}-${var.environment}/network/private_subnets_id"
+  type        = "StringList"
+  value       = join(",", module.vpc.private_subnets)
+}
+
+resource "aws_ssm_parameter" "public_subnets_id" {
+  name        = "/${var.business_divsion}-${var.environment}/network/public_subnets_id"
+  type        = "StringList"
+  value       = join(",", module.vpc.public_subnets)
 }

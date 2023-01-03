@@ -27,7 +27,7 @@ module "ec2_public" {
   instance_type          = var.instance_type
   key_name               = var.instance_keypair
   #monitoring             = true
-  subnet_id              = split(",",data.aws_ssm_parameter.public_subnets.value)[0] #module.vpc.public_subnets[0]
+  subnet_id              = split(",",data.aws_ssm_parameter.public_subnets_id.value)[0] #module.vpc.public_subnets[0]
   vpc_security_group_ids = [module.public_bastion_sg.security_group_id]
   tags = local.public_ec2_tags
    depends_on = [

@@ -8,7 +8,7 @@ module "private_instance_sg" {
   vpc_id = data.aws_ssm_parameter.vpc_id.value #module.vpc.vpc_id
   # Ingress Rules & CIDR Blocks -> names are shown on module page 
   ingress_rules = ["ssh-tcp"]
-  ingress_cidr_blocks = split(",",data.aws_ssm_parameter.public_subnets.value) #var.vpc_public_subnets
+  ingress_cidr_blocks = split(",",data.aws_ssm_parameter.public_subnets_cidr.value) #var.vpc_public_subnets
   # Egress Rule - all-all open
   egress_rules = ["all-all"]
   tags = local.common_tags
